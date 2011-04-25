@@ -7,8 +7,8 @@
 
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gemname}
-Version: 0.2.5
-Release: 3%{?dist}
+Version: 0.2.6
+Release: 1%{?dist}
 Group: Development/Languages
 License: MIT
 URL: http://github.com/FooBarWidget/daemon_controller/tree/master
@@ -59,6 +59,9 @@ RUBYOPT="I%{buildroot}%{geminstdir}/lib Ispec" spec spec/
 %{geminstdir}/spec
 
 %changelog
+* Mon Apr 25 2011  Peng Wu <pwu@redhat.com> - 0.2.6-1
+- Update to version 0.2.6
+
 * Thu Apr 21 2011  Peng Wu <pwu@redhat.com> - 0.2.5-3
 - Run test suite
 
