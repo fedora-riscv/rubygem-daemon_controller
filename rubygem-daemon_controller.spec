@@ -1,23 +1,20 @@
 # Generated from daemon_controller-0.2.5.gem by gem2rpm -*- rpm-spec -*-
-%global rubyabi 1.8
-%define ruby_sitelib %(ruby -rrbconfig -e "puts Config::CONFIG['sitelibdir']")
-%define gemdir %(ruby -rubygems -e 'puts Gem::dir' 2>/dev/null)
-%define gemname daemon_controller
-%define geminstdir %{gemdir}/gems/%{gemname}-%{version}
+%global rubyabi 1.9.1
+%define gem_name daemon_controller
 
 Summary: A library for implementing daemon management capabilities
-Name: rubygem-%{gemname}
+Name: rubygem-%{gem_name}
 Version: 0.2.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 Group: Development/Languages
 License: MIT
 URL: http://github.com/FooBarWidget/daemon_controller/tree/master
-Source0: http://rubygems.org/downloads/%{gemname}-%{version}.gem
+Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
 Requires: ruby(abi) = %{rubyabi}
-Requires: rubygems
-BuildRequires: ruby rubygems rubygem-rspec
+Requires: ruby(rubygems)
+BuildRequires: ruby rubygems-devel rubygem(rspec-core)
 BuildArch: noarch
-Provides: rubygem(%{gemname}) = %{version}
+Provides: rubygem(%{gem_name}) = %{version}
 
 %description
 A library for robust daemon management.
@@ -35,30 +32,34 @@ Documentation for %{name}
 %build
 
 %install
-mkdir -p %{buildroot}%{gemdir}
-gem install --local --install-dir %{buildroot}%{gemdir} \
+mkdir -p %{buildroot}%{gem_dir}
+gem install --local --install-dir %{buildroot}%{gem_dir} \
             --force --rdoc %{SOURCE0}
 
 %check
-pushd %{buildroot}%{geminstdir}
-RUBYOPT="I%{buildroot}%{geminstdir}/lib Ispec" spec spec/
+pushd %{buildroot}%{gem_instdir}
+rspec -I%{buildroot}%{gem_libdir} -Ispec spec/
+popd
 
 %files
 %defattr(-, root, root, -)
-%dir %{geminstdir}
-%{geminstdir}/lib
-%doc %{geminstdir}/LICENSE.txt
-%doc %{geminstdir}/README.markdown
-%{gemdir}/cache/%{gemname}-%{version}.gem
-%{gemdir}/specifications/%{gemname}-%{version}.gemspec
+%dir %{gem_instdir}
+%{gem_libdir}
+%doc %{gem_instdir}/LICENSE.txt
+%doc %{gem_instdir}/README.markdown
+%{gem_cache}
+%{gem_spec}
 
 %files doc
 %defattr(-, root, root, -)
-%{geminstdir}/*.gemspec
-%{gemdir}/doc/%{gemname}-%{version}
-%{geminstdir}/spec
+%{gem_instdir}/*.gemspec
+%{gem_docdir}
+%{gem_instdir}/spec
 
 %changelog
+* Mon Feb 06 2012 Vít Ondruch <vondruch@redhat.com> - 0.2.6-3
+- Rebuilt for Ruby 1.9.3.
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.6-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
