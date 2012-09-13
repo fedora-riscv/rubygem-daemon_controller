@@ -4,8 +4,8 @@
 
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
-Version: 0.2.6
-Release: 4%{?dist}
+Version: 1.0.0
+Release: 1%{?dist}
 Group: Development/Languages
 License: MIT
 URL: http://github.com/FooBarWidget/daemon_controller/tree/master
@@ -38,6 +38,8 @@ gem install --local --install-dir %{buildroot}%{gem_dir} \
 
 %check
 pushd %{buildroot}%{gem_instdir}
+# be explicit so localhost doesn't resolve to an ipv6 address.
+%{__sed} -i 's/localhost/127.0.0.1/g' spec/daemon_controller_spec.rb
 rspec -I%{buildroot}%{gem_libdir} -Ispec spec/
 popd
 
@@ -57,6 +59,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Thu Sep 13 2012 Brett Lentz <blentz@redhat.com> - 1.0.0-1
+- Update to 1.0.0
+
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
