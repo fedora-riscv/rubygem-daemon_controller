@@ -4,15 +4,19 @@
 
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
-Version: 1.0.0
-Release: 2%{?dist}
+Version: 1.1.1
+Release: 1%{?dist}
 Group: Development/Languages
 License: MIT
 URL: http://github.com/FooBarWidget/daemon_controller/tree/master
 Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
 Requires: ruby(abi) = %{rubyabi}
 Requires: ruby(rubygems)
-BuildRequires: ruby rubygems-devel rubygem(rspec-core)
+BuildRequires: ruby
+BuildRequires: rubygems-devel
+BuildRequires: rubygem(rspec-core)
+BuildRequires: rubygem(rspec-mocks)
+BuildRequires: rubygem(rspec-expectations)
 BuildArch: noarch
 Provides: rubygem(%{gem_name}) = %{version}
 
@@ -59,6 +63,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Fri Feb 22 2013 Brett Lentz <blentz@redhat.com> - 1.1.1-1
+- Update to 1.1.1
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
