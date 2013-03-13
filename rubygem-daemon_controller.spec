@@ -1,16 +1,26 @@
 # Generated from daemon_controller-0.2.5.gem by gem2rpm -*- rpm-spec -*-
-%global rubyabi 1.9.1
 %define gem_name daemon_controller
+
+%if 0%{?fedora} >= 19
+%global gem_extdir %{gem_extdir_mri}
+%endif
 
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
 Version: 1.1.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Development/Languages
 License: MIT
 URL: http://github.com/FooBarWidget/daemon_controller/tree/master
 Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
-Requires: ruby(abi) = %{rubyabi}
+
+%if 0%{?fedora} >= 19
+Requires:      ruby(release)
+%else
+Requires:      ruby(abi) >= %{rubyabi}
+BuildRequires: ruby(abi) >= %{rubyabi}
+%endif
+
 Requires: ruby(rubygems)
 BuildRequires: ruby
 BuildRequires: rubygems-devel
@@ -63,6 +73,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Wed Mar 13 2013 Brett Lentz <blentz@redhat.com> - 1.1.1-2
+- Update to new packaging guidelines.
+
 * Fri Feb 22 2013 Brett Lentz <blentz@redhat.com> - 1.1.1-1
 - Update to 1.1.1
 
