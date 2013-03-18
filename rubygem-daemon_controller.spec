@@ -8,7 +8,7 @@
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
 Version: 1.1.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Group: Development/Languages
 License: MIT
 URL: http://github.com/FooBarWidget/daemon_controller/tree/master
@@ -46,9 +46,7 @@ Documentation for %{name}
 %build
 
 %install
-mkdir -p %{buildroot}%{gem_dir}
-gem install --local --install-dir %{buildroot}%{gem_dir} \
-            --force --rdoc %{SOURCE0}
+%gem_install -n %{SOURCE0} -d %{buildroot}%{gem_dir}
 
 %check
 pushd %{buildroot}%{gem_instdir}
@@ -73,6 +71,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Mon Mar 18 2013 Brett Lentz <blentz@redhat.com> - 1.1.2-2
+- use %%gem_install macro
+
 * Fri Mar 15 2013 Brett Lentz <blentz@redhat.com> - 1.1.2-1
 - Update to 1.1.2
 
