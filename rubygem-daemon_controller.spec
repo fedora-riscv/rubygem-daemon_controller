@@ -7,7 +7,7 @@
 
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
-Version: 1.1.5
+Version: 1.1.8
 Release: 1%{?dist}
 Group: Development/Languages
 License: MIT
@@ -48,6 +48,8 @@ Documentation for %{name}
 %install
 %gem_install -n %{SOURCE0} -d %{buildroot}%{gem_dir}
 %__rm -rf %{buildroot}%{gem_instdir}/debian.template
+%__rm -rf %{buildroot}%{gem_instdir}/rpm
+%__rm -rf %{buildroot}%{gem_instdir}/Rakefile
 
 %check
 pushd %{buildroot}%{gem_instdir}
@@ -72,6 +74,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Thu Jan 23 2014 Brett Lentz <blentz@redhat.com> - 1.1.8-1
+- Update to 1.1.8
+
 * Wed Jul 31 2013 Brett Lentz <blentz@redhat.com> - 1.1.5-1
 - Update to 1.1.5
 
