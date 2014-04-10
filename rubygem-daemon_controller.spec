@@ -7,7 +7,7 @@
 
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
-Version: 1.1.8
+Version: 1.2.0
 Release: 1%{?dist}
 Group: Development/Languages
 License: MIT
@@ -74,6 +74,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Thu Apr 10 2014 Brett Lentz <blentz@redhat.com> - 1.2.0-1
+- Update to 1.2.0
+
 * Thu Jan 23 2014 Brett Lentz <blentz@redhat.com> - 1.1.8-1
 - Update to 1.1.8
 
