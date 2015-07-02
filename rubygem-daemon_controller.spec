@@ -1,10 +1,6 @@
 # Generated from daemon_controller-0.2.5.gem by gem2rpm -*- rpm-spec -*-
 %define gem_name daemon_controller
 
-%if 0%{?fedora} >= 19
-%global gem_extdir %{gem_extdir_mri}
-%endif
-
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
 Version: 1.2.0
@@ -13,22 +9,10 @@ Group: Development/Languages
 License: MIT
 URL: http://github.com/FooBarWidget/daemon_controller/tree/master
 Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
-
-%if 0%{?fedora} >= 19
-Requires:      ruby(release)
-%else
-Requires:      ruby(abi) >= %{rubyabi}
-BuildRequires: ruby(abi) >= %{rubyabi}
-%endif
-
-Requires: ruby(rubygems)
 BuildRequires: ruby
 BuildRequires: rubygems-devel
-BuildRequires: rubygem(rspec-core)
-BuildRequires: rubygem(rspec-mocks)
-BuildRequires: rubygem(rspec-expectations)
+BuildRequires: rubygem(rspec) < 3
 BuildArch: noarch
-Provides: rubygem(%{gem_name}) = %{version}
 
 %description
 A library for robust daemon management.
@@ -39,36 +23,40 @@ Group: Documentation
 Requires: %{name} = %{version}-%{release}
 
 %description doc
-Documentation for %{name}
+Documentation for %{name}.
 
 %prep
+%setup -q -c -T
+%gem_install -n %{SOURCE0}
 
 %build
 
 %install
-%gem_install -n %{SOURCE0} -d %{buildroot}%{gem_dir}
-%__rm -rf %{buildroot}%{gem_instdir}/debian.template
-%__rm -rf %{buildroot}%{gem_instdir}/rpm
-%__rm -rf %{buildroot}%{gem_instdir}/Rakefile
+mkdir -p %{buildroot}%{gem_dir}
+cp -a .%{gem_dir}/* \
+        %{buildroot}%{gem_dir}/
+
+rm -rf %{buildroot}%{gem_instdir}/debian.template
+rm -rf %{buildroot}%{gem_instdir}/rpm
+rm -rf %{buildroot}%{gem_instdir}/Rakefile
 
 %check
-pushd %{buildroot}%{gem_instdir}
+pushd .%{gem_instdir}
 # be explicit so localhost doesn't resolve to an ipv6 address.
-%{__sed} -i 's/localhost/127.0.0.1/g' spec/daemon_controller_spec.rb
-rspec -I%{buildroot}%{gem_libdir} -Ispec spec/
+sed -i 's/localhost/127.0.0.1/g' spec/daemon_controller_spec.rb
+
+rspec2 spec
 popd
 
 %files
-%defattr(-, root, root, -)
 %dir %{gem_instdir}
 %{gem_libdir}
-%doc %{gem_instdir}/LICENSE.txt
+%license %{gem_instdir}/LICENSE.txt
 %doc %{gem_instdir}/README.markdown
-%{gem_cache}
+%exclude %{gem_cache}
 %{gem_spec}
 
 %files doc
-%defattr(-, root, root, -)
 %{gem_instdir}/*.gemspec
 %{gem_docdir}
 %{gem_instdir}/spec
