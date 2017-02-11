@@ -4,7 +4,7 @@
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
 Version: 1.2.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Group: Development/Languages
 License: MIT
 URL: http://github.com/FooBarWidget/daemon_controller/tree/master
@@ -62,6 +62,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
