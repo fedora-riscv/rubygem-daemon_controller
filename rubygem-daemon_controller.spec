@@ -1,42 +1,46 @@
 # Generated from daemon_controller-0.2.5.gem by gem2rpm -*- rpm-spec -*-
 %define gem_name daemon_controller
 
-Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
 Version: 1.2.0
 Release: 8%{?dist}
-Group: Development/Languages
+Summary: A library for implementing daemon management capabilities
 License: MIT
-URL: http://github.com/FooBarWidget/daemon_controller/tree/master
-Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
+URL: https://github.com/FooBarWidget/daemon_controller
+Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 # Move to RSpec3.
 # https://github.com/FooBarWidget/daemon_controller/commit/c0afb3b2c0df90b69ed76ffacb539856a59cd230
 Patch0: rubygem-daemon_controller-1.2.0-upgrade-to-RSpec3.patch
-BuildRequires: ruby
+BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
+BuildRequires: ruby
 BuildRequires: rubygem(rspec)
 BuildArch: noarch
 
 %description
 A library for robust daemon management.
 
+
 %package doc
 Summary: Documentation for %{name}
-Group: Documentation
 Requires: %{name} = %{version}-%{release}
+BuildArch: noarch
 
 %description doc
 Documentation for %{name}.
 
 %prep
-%setup -q -c -T
-%gem_install -n %{SOURCE0}
+%setup -q -n  %{gem_name}-%{version}
 
-pushd .%{gem_instdir}
 %patch0 -p1
-popd
 
 %build
+# Create the gem as gem install only works on a gem file
+gem build ../%{gem_name}-%{version}.gemspec
+
+# %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
+# by default, so that we can move it into the buildroot in %%install
+%gem_install
 
 %install
 mkdir -p %{buildroot}%{gem_dir}
@@ -57,20 +61,21 @@ popd
 
 %files
 %dir %{gem_instdir}
-%{gem_libdir}
 %license %{gem_instdir}/LICENSE.txt
-%doc %{gem_instdir}/README.markdown
+%{gem_libdir}
 %exclude %{gem_cache}
 %{gem_spec}
 
 %files doc
-%{gem_instdir}/*.gemspec
 %{gem_docdir}
+%doc %{gem_instdir}/README.markdown
+%{gem_instdir}/*.gemspec
 %{gem_instdir}/spec
 
 %changelog
 * Mon Feb 26 2018 Vít Ondruch <vondruch@redhat.com> - 1.2.0-8
 - Migrate to RSpec 3.x.
+- .spec file cleanup.
 
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
