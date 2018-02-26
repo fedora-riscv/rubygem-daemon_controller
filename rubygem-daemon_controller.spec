@@ -4,14 +4,17 @@
 Summary: A library for implementing daemon management capabilities
 Name: rubygem-%{gem_name}
 Version: 1.2.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 Group: Development/Languages
 License: MIT
 URL: http://github.com/FooBarWidget/daemon_controller/tree/master
 Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
+# Move to RSpec3.
+# https://github.com/FooBarWidget/daemon_controller/commit/c0afb3b2c0df90b69ed76ffacb539856a59cd230
+Patch0: rubygem-daemon_controller-1.2.0-upgrade-to-RSpec3.patch
 BuildRequires: ruby
 BuildRequires: rubygems-devel
-BuildRequires: rubygem(rspec) < 3
+BuildRequires: rubygem(rspec)
 BuildArch: noarch
 
 %description
@@ -29,6 +32,10 @@ Documentation for %{name}.
 %setup -q -c -T
 %gem_install -n %{SOURCE0}
 
+pushd .%{gem_instdir}
+%patch0 -p1
+popd
+
 %build
 
 %install
@@ -45,7 +52,7 @@ pushd .%{gem_instdir}
 # be explicit so localhost doesn't resolve to an ipv6 address.
 sed -i 's/localhost/127.0.0.1/g' spec/daemon_controller_spec.rb
 
-rspec2 spec
+rspec spec
 popd
 
 %files
@@ -62,6 +69,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Mon Feb 26 2018 Vít Ondruch <vondruch@redhat.com> - 1.2.0-8
+- Migrate to RSpec 3.x.
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
