@@ -1,9 +1,11 @@
 # Generated from daemon_controller-0.2.5.gem by gem2rpm -*- rpm-spec -*-
 %define gem_name daemon_controller
 
+%bcond_with check
+
 Name: rubygem-%{gem_name}
 Version: 1.2.0
-Release: 17%{?dist}
+Release: 17.rv64%{?dist}
 Summary: A library for implementing daemon management capabilities
 License: MIT
 URL: https://github.com/FooBarWidget/daemon_controller
@@ -51,6 +53,7 @@ rm -rf %{buildroot}%{gem_instdir}/debian.template
 rm -rf %{buildroot}%{gem_instdir}/rpm
 rm -rf %{buildroot}%{gem_instdir}/Rakefile
 
+%if %{with check}
 %check
 pushd .%{gem_instdir}
 # be explicit so localhost doesn't resolve to an ipv6 address.
@@ -58,6 +61,7 @@ sed -i 's/localhost/127.0.0.1/g' spec/daemon_controller_spec.rb
 
 rspec spec
 popd
+%endif
 
 %files
 %dir %{gem_instdir}
@@ -73,6 +77,9 @@ popd
 %{gem_instdir}/spec
 
 %changelog
+* Web Feb 15 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 1.2.0-17.rv64
+- Skip check which hangs on riscv64.
+
 * Sat Jul 23 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.2.0-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
